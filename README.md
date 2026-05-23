@@ -275,4 +275,4 @@ AI 回复（纯文本）
 
 ## License
 
-[MIT](LICENSE) © 2025 weiclawpy
+[MIT](LICENSE) © 2026 weiclawpy
