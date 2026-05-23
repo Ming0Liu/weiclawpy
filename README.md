@@ -252,7 +252,7 @@ AI 回复（纯文本）
 在微信中发送 `/models` 查看可用模型列表，然后发送 `/model provider/model_name` 切换。例如：
 
 ```
-/model anthropic/claude-sonnet-4-20250514
+/model deepseek/deepseek-v4-pro
 ```
 
 ### 数据存储在哪里？
