@@ -5,9 +5,9 @@
   <img src="https://img.shields.io/badge/license-MIT-green" alt="MIT License">
 </p>
 
-远程连接微信与 OpenCode。
+在微信与 OpenCode 之间建立双向连接，支持消息互通与文件互传。
 
-**weiclawpy** 是一个 Python CLI 桥接工具，连接微信（ilinkai 机器人 API）与 OpenCode AI（终端 AI 编码助手）。它让微信用户可以通过自然语言与 OpenCode 交互：发送文本、图片、语音消息和文件，并接收 AI 生成的回复。本质上，它将微信转变为 OpenCode 的对话前端。
+**weiclawpy** 是一个 Python CLI 桥接工具，连接微信（ilinkai 机器人 API）与 OpenCode AI（终端 AI 编码助手）。微信用户可通过自然语言与 OpenCode 交互：发送文本、图片、语音消息或文件，并接收 OpenCode 的文字回复或文件。它不仅将微信变为 OpenCode 的对话前端，还实现了双向文件传输。
 
 ---
 
@@ -29,7 +29,7 @@
 
 ```bash
 # Python >= 3.9
-# 安装 OpenCode AI（npm 全局包）
+# 安装 OpenCode（npm 全局包）
 npm install -g opencode-ai
 
 # 安装 weiclawpy
@@ -42,7 +42,7 @@ pip install weiclawpy
 weiclawpy run
 ```
 
-首次运行会在终端打印微信二维码，扫码登录后即开始自动轮询消息。后续运行会自动复用凭证，无需重复扫码。**运行中若 token 过期，会自动弹出二维码重新登录，无需重启服务。**
+首次运行时，终端会打印微信二维码，扫码登录后即开始自动轮询消息。后续运行会自动复用凭证，无需重复扫码。**运行中若 token 过期，会自动弹出二维码重新登录，无需重启服务。**
 
 ---
 
@@ -70,7 +70,7 @@ weiclawpy
 2. 加载微信凭证或弹出二维码登录
 3. 进入无限消息轮询循环
 
-主循环中，每小时会在终端打印一次心跳 `桥运行中...`。按 `Ctrl+C` 优雅停止。
+主循环中，每小时会在终端打印一次心跳 `桥运行中...`。按 `Ctrl+C` 即可停止运行。
 
 ### weiclawpy send — 一次性发送
 
@@ -137,7 +137,7 @@ _handle_msg() 按消息类型分发
 
 **关键设计——图片缓冲机制：**
 
-微信将图片和文字作为**两条独立消息**发送（图片先到，文字后到）。`pending` 字典（内存中，5 分钟 TTL）暂存图片 base64，等文字到来后组合为"图片+文字"一起发给 OpenCode。若 5 分钟内无文字到来，图片自动丢弃。
+微信将图片和文字作为**两条独立消息**发送（图片先到，文字后到）。`pending` 字典（位于内存，5 分钟 TTL）用于暂存图片 base64，待文字到来后组合为"图片+文字"一起发给 OpenCode。若 5 分钟内无文字到来，图片自动丢弃。
 
 ### `weixin.py` — 微信 API 客户端
 
@@ -150,7 +150,7 @@ _handle_msg() 按消息类型分发
 | 发送消息 | 支持文本(type=1)、图片(type=2)、文件(type=4) |
 | 文件上传 | 本地文件 AES-128-ECB 加密后上传微信 CDN，再发送媒体引用 |
 | 输入状态 | send_typing(status=1 开始输入, status=2 停止输入) |
-| 上下文令牌 | 多轮对话需要 context_token，自动保存到本地文件 |
+| 上下文令牌 | 多轮对话需要 context_token，该令牌自动保存到本地文件 |
 
 ### `opencode_api.py` — OpenCode HTTP 客户端
 
