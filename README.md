@@ -5,9 +5,11 @@
   <img src="https://img.shields.io/badge/license-MIT-green" alt="MIT License">
 </p>
 
-在微信与 OpenCode 之间建立双向连接，支持消息互通与文件互传。
+在微信与 OpenCode 之间搭建双向桥梁，实现消息互通与文件互传。
 
-**weiclawpy** 是一个 Python CLI 桥接工具，连接微信（ilinkai 机器人 API）与 OpenCode AI（终端 AI 编码助手）。微信用户可通过自然语言与 OpenCode 交互：发送文本、图片、语音消息或文件，并接收 OpenCode 的文字回复或文件。它不仅将微信变为 OpenCode 的对话前端，还实现了双向文件传输。
+**weiclawpy** 是一个 Python CLI 桥接工具，连接微信（ilinkai 机器人 API）与 OpenCode AI（终端 AI 编程助手）。微信用户可通过自然语言与 OpenCode 交互：发送文本、图片、语音消息或文件，并接收 AI 的文字回复或文件。它将微信变为 OpenCode 的移动对话前端，同时支持双向文件传输。
+
+**提示：** 若想让 OpenCode 主动向微信发送消息或文件，建议搭配 [weiclawpy-send](https://github.com/Ming0Liu/weiclawpy-send) 智能体 skill 使用。该 skill 让 AI 学会调用 `weiclawpy send` 命令发送消息或文件，用户可通过自然语言指挥 AI 发送文件。
 
 ---
 
