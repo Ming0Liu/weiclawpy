@@ -1,6 +1,12 @@
 # weiclawpy
 
-一条命令，把微信变成 OpenCode 的入口。
+<p>
+  <a href="https://pypi.org/project/weiclawpy/"><img src="https://img.shields.io/pypi/v/weiclawpy" alt="PyPI"></a>
+  <a href="https://pypi.org/project/weiclawpy/"><img src="https://img.shields.io/pypi/pyversions/weiclawpy" alt="Python versions"></a>
+  <a href="LICENSE"><img src="https://img.shields.io/github/license/Ming0Liu/weiclawpy" alt="License"></a>
+</p>
+
+远程连接微信与 OpenCode。
 
 **weiclawpy** 是一个 Python CLI 桥接工具，连接微信（ilinkai 机器人 API）与 OpenCode AI（终端 AI 编码助手）。它让微信用户可以通过自然语言与 OpenCode 交互：发送文本、图片、语音消息和文件，并接收 AI 生成的回复。本质上，它将微信转变为 OpenCode 的对话前端。
 
@@ -263,3 +269,9 @@ AI 回复（纯文本）
 **服务运行中过期：** weiclawpy 会自动检测 token 过期（HTTP 401/403），清除过期凭证并在终端重新展示二维码，扫码后自动恢复，无需手动干预。
 
 **启动时强制重登：** 运行 `weiclawpy run --relogin` 可跳过已有凭证，强制重新扫码登录。
+
+---
+
+## License
+
+[MIT](LICENSE) © 2025 weiclawpy

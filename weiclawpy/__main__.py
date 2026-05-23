@@ -1,5 +1,3 @@
-"""weiclawpy — 一条命令，把微信变成 OpenCode 的入口 (server edition)."""
-
 import base64
 import json
 import re
@@ -187,7 +185,8 @@ def cmd_run(args) -> int:
 
 
 def main() -> int:
-    p = ArgumentParser(description="一条命令，把微信变成 OpenCode 的入口")
+    p = ArgumentParser(description="远程连接微信与 OpenCode")
+    p.add_argument("--version", action="version", version=f"weiclawpy {__import__('weiclawpy').__version__}")
     p.set_defaults(verbose=False, relogin=False)
     sub = p.add_subparsers(dest="command")
 
@@ -404,3 +403,7 @@ def _clean_expired(pending: dict, ttl: float) -> None:
     expired = [u for u, p in pending.items() if now - p["timestamp"] > ttl]
     for u in expired:
         del pending[u]
+
+
+if __name__ == "__main__":
+    sys.exit(main())

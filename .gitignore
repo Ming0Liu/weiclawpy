@@ -1,2 +1,31 @@
-.codeartsdoer/
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+*.egg-info/
+dist/
 build/
+*.egg
+.eggs/
+
+# Virtual environments
+.venv/
+venv/
+env/
+poetry.lock
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Project-specific
+.codeartsdoer/
+from_wechat/
+
+# OS
+.DS_Store
+Thumbs.db
