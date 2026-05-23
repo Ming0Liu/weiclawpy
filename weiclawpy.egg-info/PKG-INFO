@@ -1,0 +1,8 @@
+Metadata-Version: 2.4
+Name: weiclawpy
+Version: 0.7.0
+Summary: 一条命令，把微信变成 OpenCode 的入口 | Connect WeChat to OpenCode
+Requires-Python: >=3.9
+Requires-Dist: pycryptodome>=3.20.0
+Requires-Dist: qrcode>=7.4.0
+Requires-Dist: requests>=2.28.0

@@ -1,0 +1,17 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "weiclawpy"
+version = "0.7.0"
+description = "一条命令，把微信变成 OpenCode 的入口 | Connect WeChat to OpenCode"
+requires-python = ">=3.9"
+dependencies = [
+    "pycryptodome>=3.20.0",
+    "qrcode>=7.4.0",
+    "requests>=2.28.0",
+]
+
+[project.scripts]
+weiclawpy = "weiclawpy.__main__:main"
