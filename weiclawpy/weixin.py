@@ -15,6 +15,12 @@ import requests
 
 from .cdn import aes_ecb_encrypt
 
+
+class TokenExpiredError(Exception):
+    """微信 token 已过期，需要重新扫码登录."""
+    pass
+
+
 BASE_URL = "https://ilinkai.weixin.qq.com"
 BOT_TYPE = "3"
 
@@ -162,6 +168,8 @@ def _api_post(endpoint: str, body: dict, token: str, timeout: int) -> Optional[d
         if not r.ok:
             if _VERBOSE:
                 print(f"   [HTTP] body: {r.text[:500]}", flush=True)
+            if r.status_code in (401, 403):
+                raise TokenExpiredError(f"{endpoint} {r.status_code}: {r.text[:200]}")
             raise RuntimeError(f"{endpoint} {r.status_code}: {r.text[:200]}")
         return r.json()
     except requests.ReadTimeout:

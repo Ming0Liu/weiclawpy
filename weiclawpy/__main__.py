@@ -24,11 +24,11 @@ from .session_manager import (
     ensure_session, new_session, get_pref,
 )
 from .weixin import (
-    load_credentials, login_via_qr, get_updates,
+    CRED_DIR, load_credentials, login_via_qr, get_updates,
     send_message, send_image_by_url, send_file,
     extract_text, extract_media, set_verbose,
     save_context_token, load_context_tokens,
-    get_weixin_config, send_typing,
+    get_weixin_config, send_typing, TokenExpiredError,
 )
 
 IMAGE_TTL = 300
@@ -47,6 +47,23 @@ def _get_creds(relogin: bool) -> dict:
             raise
         print("✅ 微信登录成功！")
     return creds
+
+
+def _relogin() -> dict:
+    """Token 过期后清除凭证并触发重新扫码登录."""
+    print("\n⚠️ 微信 token 已过期，清除凭证并重新登录...", flush=True)
+    cred_path = CRED_DIR / "credentials.json"
+    try:
+        cred_path.unlink(missing_ok=True)
+    except Exception:
+        pass
+    try:
+        creds = login_via_qr(_display_qr)
+        print("✅ 重新登录成功！", flush=True)
+        return creds
+    except Exception as e:
+        print(f"❌ 重新登录失败: {e}，将在 10 秒后重试", flush=True)
+        raise
 
 
 def cmd_send(args) -> int:
@@ -124,6 +141,13 @@ def cmd_run(args) -> int:
         while True:
             try:
                 result = get_updates(creds["token"], buf, bot_id)
+            except TokenExpiredError:
+                try:
+                    creds = _relogin()
+                    buf = ""
+                except Exception:
+                    time.sleep(10)
+                continue
             except Exception as e:
                 print(f"⚠️ poll 异常: {e}", flush=True)
                 time.sleep(3)
@@ -143,6 +167,13 @@ def cmd_run(args) -> int:
             for msg in msgs:
                 try:
                     _handle_msg(msg, creds, pending)
+                except TokenExpiredError:
+                    try:
+                        creds = _relogin()
+                        buf = ""
+                    except Exception:
+                        time.sleep(10)
+                    break
                 except Exception as e:
                     print(f"⚠️ 处理消息异常: {e}", flush=True)
                     traceback.print_exc()
@@ -275,6 +306,8 @@ def _handle_voice_msg(user: str, ctx: str, media: dict, text: str, creds: dict) 
         print(f"→ [opencode] {reply[:80]}", flush=True)
         if not send_message(creds["token"], user, reply, ctx):
             print(f"   消息发送失败", flush=True)
+    except TokenExpiredError:
+        raise
     except Exception as e:
         print(f"   opencode 错误: {e}", flush=True)
 
@@ -291,6 +324,8 @@ def _handle_file_msg(user: str, ctx: str, media: dict, creds: dict) -> None:
         saved_path.write_bytes(file_data)
         print(f"   💾 已保存: {saved_path.resolve()}", flush=True)
         send_message(creds["token"], user, f"💾 文件已保存到 {saved_path.resolve()}", ctx)
+    except TokenExpiredError:
+        raise
     except Exception as e:
         print(f"   文件下载/保存失败: {e}", flush=True)
         send_message(creds["token"], user, f"⚠️ 文件下载/保存失败: {e}", ctx)
