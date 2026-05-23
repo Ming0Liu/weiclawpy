@@ -1,9 +1,8 @@
 # weiclawpy
 
 <p>
-  <a href="https://pypi.org/project/weiclawpy/"><img src="https://img.shields.io/pypi/v/weiclawpy" alt="PyPI"></a>
-  <a href="https://pypi.org/project/weiclawpy/"><img src="https://img.shields.io/pypi/pyversions/weiclawpy" alt="Python versions"></a>
-  <a href="LICENSE"><img src="https://img.shields.io/github/license/Ming0Liu/weiclawpy" alt="License"></a>
+  <img src="https://img.shields.io/badge/python-3.9%2B-blue" alt="Python 3.9+">
+  <img src="https://img.shields.io/badge/license-MIT-green" alt="MIT License">
 </p>
 
 远程连接微信与 OpenCode。
