@@ -23,6 +23,7 @@ poetry.lock
 *.swo
 
 # Project-specific
+.claude/
 .codeartsdoer/
 from_wechat/
 
