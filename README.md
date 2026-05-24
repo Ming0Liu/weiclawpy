@@ -11,6 +11,14 @@
 
 **提示：** 若想让 OpenCode 主动向微信发送消息或文件，建议搭配 [weiclawpy-send](https://github.com/Ming0Liu/weiclawpy-send) 智能体 skill 使用。该 skill 让 AI 学会调用 `weiclawpy send` 命令发送消息或文件，用户可通过自然语言指挥 AI 发送文件。
 
+<table>
+  <tr>
+    <td align="center"><img src="docs/images/example1.jpg" width="90%"><br><em>文件传输演示</em></td>
+    <td align="center"><img src="docs/images/example2.jpg" width="90%"><br><em>文件传输演示</em></td>
+    <td align="center"><img src="docs/images/example3.jpg" width="90%"><br><em>语音交互演示</em></td>
+  </tr>
+</table>
+
 ---
 
 ## 目录

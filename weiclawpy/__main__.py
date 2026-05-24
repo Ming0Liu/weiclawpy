@@ -114,7 +114,7 @@ def cmd_run(args) -> int:
     try:
         ensure_running(timeout=30)
         h = health()
-        print(f"✅ OpenCode 服务就绪 (v{h.get('version', '?')})", flush=True)
+        print(f"✅ OpenCode 服务启动成功 (v{h.get('version', '?')})", flush=True)
     except Exception as e:
         print(f"❌ OpenCode 服务启动失败: {e}", flush=True)
         print("   请确保已安装: npm install -g opencode-ai", flush=True)
@@ -125,9 +125,8 @@ def cmd_run(args) -> int:
     except Exception:
         return 1
 
-    print("✅ 微信已登录")
-    print("✅ OpenCode 服务器模式运行中")
-    print(f"🚀 桥已启动 (现在是 {time.strftime('%Y-%m-%d %H:%M:%S', time.localtime())})\n")
+    print("✅ 微信登录成功")
+    print(f"✅ 桥已启动 (现在是 {time.strftime('%Y-%m-%d %H:%M:%S', time.localtime())})\n")
 
     buf = ""
     pending = {}
@@ -278,7 +277,7 @@ def _handle_image_msg(user: str, ctx: str, media: dict, creds: dict, pending: di
 def _handle_text_msg(user: str, ctx: str, text: str, creds: dict, pending: dict) -> None:
     cmd_reply = handle_cmd(text, user)
     if cmd_reply is not None:
-        print(f"→ [opencode cmd] {cmd_reply}", flush=True)
+        print(f"→ [opencode cmd] {cmd_reply}\n", flush=True)
         send_message(creds["token"], user, cmd_reply, ctx)
         return
 
@@ -302,7 +301,7 @@ def _handle_voice_msg(user: str, ctx: str, media: dict, text: str, creds: dict) 
     print(f"← [微信] {user}: [语音] {voice_text[:80]}", flush=True)
     try:
         reply, _ = _ask_opencode(user, voice_text, creds["token"], ctx, {"type": "voice"})
-        print(f"→ [opencode] {reply[:80]}", flush=True)
+        print(f"→ [opencode] {reply[:80]}\n", flush=True)
         if not send_message(creds["token"], user, reply, ctx):
             print(f"   消息发送失败", flush=True)
     except TokenExpiredError:
@@ -340,7 +339,7 @@ def _reply_to_user(user: str, prompt: str, token: str, ctx: str,
         return
 
     shown = reply[:80] + ("..." if len(reply) > 80 else "")
-    print(f"→ [opencode] {shown}", flush=True)
+    print(f"→ [opencode] {shown}\n", flush=True)
 
     if not reply and not image_urls:
         send_message(token, user, "(无回复)", ctx)
